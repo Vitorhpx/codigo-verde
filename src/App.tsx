@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Scanner from "./Scanner";
+import Result from "./Result";
 
-const App: React.FC = () => {
+const App = () => {
+  const [scanning, setScanning] = useState(false);
+  const [results, setResults] = useState<any>([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={() => setScanning(!scanning)}>
+        {scanning ? "Stop" : "Start"}
+      </button>
+      <ul className="results">
+        {results.map((result: any) => (
+          <Result key={result.codeResult.code} result={result} />
+        ))}
+      </ul>
+      {scanning ? (
+        <Scanner onDetected={result => setResults([...results, result])} />
+      ) : null}
     </div>
   );
-}
+};
 
 export default App;
