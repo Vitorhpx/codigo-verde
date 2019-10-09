@@ -19,13 +19,13 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
       <Scanner onDetected={result => console.log(result)} />
       <AppBar className={classes.bottomAppBar}>
         <Grid container direction='row' justify='center' alignItems='center'>
-          <Grid item xs={2} />
-          <Grid item xs={8}>
+          <Grid item xs={4} sm={2} lg={1} />
+          <Grid item xs={4} sm={8} lg={10}>
             <Typography component='body' className={classes.moneyText}>
               R$ 34,50
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={4} sm={2} lg={1}>
             <Button color='primary' variant='contained'>
               Reciclar
             </Button>
