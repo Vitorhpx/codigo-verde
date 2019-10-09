@@ -1,21 +1,20 @@
-import { AppBar, Button, Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import { AppBar, Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import * as React from 'react';
-import Result from '../Components/obj.barcode-scanner/Result';
 import Scanner from '../Components/obj.barcode-scanner/Scanner';
 
 interface MainPageProps {}
 
 const MainPage: React.FunctionComponent<MainPageProps> = props => {
-  const [results, setResults] = React.useState<any>([]);
+  // const [results, setResults] = React.useState<any>([]);
   const classes = useStyles();
 
   return (
-    <div>
-      <ul className='results'>
+    <Box className={classes.root}>
+      {/* <ul className='results'>
         {results.map((result: any) => (
           <Result key={result.codeResult.code} result={result} />
         ))}
-      </ul>
+      </ul> */}
       <Scanner onDetected={result => console.log(result)} />
       <AppBar className={classes.bottomAppBar}>
         <Grid container direction='row' justify='center' alignItems='center'>
@@ -32,13 +31,19 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
           </Grid>
         </Grid>
       </AppBar>
-    </div>
+    </Box>
   );
 };
 
 export default MainPage;
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    position: 'fixed',
+    height: 'calc(100vh - 124px)', //Header + Footer = 124px
+    width: '100vw',
+    overflow: 'hidden',
+  },
   bottomAppBar: {
     height: '60px',
     display: 'flex',
