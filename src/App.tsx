@@ -1,25 +1,15 @@
-import React, { useState } from "react";
-import Scanner from "./Scanner";
-import Result from "./Result";
+import { AppBar } from '@material-ui/core';
+import React from 'react';
+import MainPage from './Pages/Main.page';
+import Header from './Components/mol.header/header.component';
+import GlobalThemeProvider from './Components/obj.theme-provider/global-theme-provider.component';
 
 const App = () => {
-  const [scanning, setScanning] = useState(false);
-  const [results, setResults] = useState<any>([]);
-
   return (
-    <div>
-      <button onClick={() => setScanning(!scanning)}>
-        {scanning ? "Stop" : "Start"}
-      </button>
-      <ul className="results">
-        {results.map((result: any) => (
-          <Result key={result.codeResult.code} result={result} />
-        ))}
-      </ul>
-      {scanning ? (
-        <Scanner onDetected={result => setResults([...results, result])} />
-      ) : null}
-    </div>
+    <GlobalThemeProvider>
+      <Header />
+      <MainPage />
+    </GlobalThemeProvider>
   );
 };
 
