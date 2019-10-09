@@ -1,6 +1,7 @@
-import React, { useLayoutEffect } from 'react';
-import PropTypes from 'prop-types';
 import Quagga from '@ericblade/quagga2';
+import { Box } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React, { useLayoutEffect } from 'react';
 
 const Scanner = ({ onDetected }: any) => {
   useLayoutEffect(() => {
@@ -38,7 +39,12 @@ const Scanner = ({ onDetected }: any) => {
       Quagga.stop();
     };
   }, [onDetected]);
-  return <div id='interactive' className='viewport' />;
+
+  return (
+    <Box>
+      <div id='interactive' className='viewport' />
+    </Box>
+  );
 };
 
 Scanner.propTypes = {
