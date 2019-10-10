@@ -8,6 +8,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
+  toolbar: {
+    height: '60px',
+  },
   menuButton: {
     marginRight: theme.spacing(2),
   },
@@ -21,7 +24,7 @@ const Header: React.FunctionComponent<IHeaderProps> = props => {
 
   return (
     <div className={classes.root}>
-      <Toolbar>
+      <Toolbar className={classes.toolbar}>
         <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>
           <MenuIcon />
         </IconButton>
