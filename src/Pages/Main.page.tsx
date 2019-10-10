@@ -40,7 +40,8 @@ export default MainPage;
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
-    height: 'calc(100vh - 124px)', //Header + Footer = 124px
+    height: 'calc(100vh - 120px)', //Header + Footer = 120px
+    backgroundColor: 'black',
     width: '100vw',
     overflow: 'hidden',
   },
