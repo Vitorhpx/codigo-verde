@@ -1,11 +1,21 @@
 import { AppBar, Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
 import * as React from 'react';
 import Scanner from '../Components/obj.barcode-scanner/Scanner';
+import { ProductModal } from '../Components/mol.product-modal/product-modal.component';
 
 interface MainPageProps {}
 
 const MainPage: React.FunctionComponent<MainPageProps> = props => {
   // const [results, setResults] = React.useState<any>([]);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [money, setMoney] = React.useState<number>(0);
+  const [productValue, setProductValue] = React.useState<number>(0.5);
+
+  const handleAddProduct = () => {
+    setOpen(false);
+    return setMoney(productValue + money);
+  };
+
   const classes = useStyles();
 
   return (
@@ -15,13 +25,13 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
           <Result key={result.codeResult.code} result={result} />
         ))}
       </ul> */}
-      <Scanner onDetected={result => console.log(result)} />
+      <Scanner onDetected={() => setOpen(true)} />
       <AppBar className={classes.bottomAppBar}>
         <Grid container direction='row' justify='center' alignItems='center'>
           <Grid item xs={4} sm={2} lg={1} />
           <Grid item xs={4} sm={8} lg={10}>
             <Typography component='body' className={classes.moneyText}>
-              R$ 34,50
+              R$ {money.toFixed(2)}
             </Typography>
           </Grid>
           <Grid item xs={4} sm={2} lg={1}>
@@ -30,6 +40,14 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
             </Button>
           </Grid>
         </Grid>
+        <ProductModal
+          open={open}
+          handleClose={() => setOpen(false)}
+          productName={'Garrafa de Água'}
+          material={'Plástico'}
+          value={productValue}
+          handleAdd={handleAddProduct}
+        />
       </AppBar>
     </Box>
   );
