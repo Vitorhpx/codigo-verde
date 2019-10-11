@@ -2,8 +2,8 @@ import { AppBar, Box, Button, Grid, makeStyles, Typography } from '@material-ui/
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
 import { getProductData } from '../API/barcode/getProduct';
-import { Product, ProductModal } from '../Components/mol.product-modal/product-modal.component';
 import Scanner from '../Components/obj.barcode-scanner/Scanner';
+import { Product, ProductModal } from '../Components/mol.product-modal/product-modal.component';
 
 interface MainPageProps {}
 
@@ -32,7 +32,6 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
     getProductData(productEan)
       .then(product => {
         setResult(product);
-        console.log('TCL: handleProductDetect -> product', product);
         setOpen(true);
       })
       .catch(handleError);
@@ -52,7 +51,7 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
             </Typography>
           </Grid>
           <Grid item xs={4} sm={2} lg={1}>
-            <Button color='primary' variant='contained'>
+            <Button color='primary' variant='contained' onClick={handleProductDetect('7894650003879')}>
               Reciclar
             </Button>
           </Grid>
