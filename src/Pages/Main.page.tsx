@@ -1,49 +1,52 @@
-import { AppBar, Box, Button, Grid, makeStyles, Typography, Snackbar } from '@material-ui/core';
+import { AppBar, Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { useSnackbar } from 'notistack';
 import * as React from 'react';
-import Scanner from '../Components/obj.barcode-scanner/Scanner';
-import { ProductModal } from '../Components/mol.product-modal/product-modal.component';
 import { getProductData } from '../API/barcode/getProduct';
+import Scanner from '../Components/obj.barcode-scanner/Scanner';
+import { Product, ProductModal } from '../Components/mol.product-modal/product-modal.component';
 
 interface MainPageProps {}
 
 const MainPage: React.FunctionComponent<MainPageProps> = props => {
-  // const [results, setResults] = React.useState<any>([]);
+  const [result, setResult] = React.useState<Product>({
+    name: '',
+    value: 0,
+    ean: '',
+    img: '',
+  });
+  const [products, setProducts] = React.useState<Product[]>([]);
   const [open, setOpen] = React.useState<boolean>(false);
-  const [openError, setOpenError] = React.useState<boolean>(false);
-  const [money, setMoney] = React.useState<number>(0);
-  const [productValue, setProductValue] = React.useState<number>(0);
-  const [lastProductName, setLastProductName] = React.useState<string>('');
+  const { enqueueSnackbar } = useSnackbar();
 
-  const handleAddProduct = () => {
+  const handleError = (_error: any) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar('Ocorreu um erro, tente novamente!', { variant: 'error' });
+  };
+
+  const handleAddProduct = (product: Product) => () => {
     setOpen(false);
-    return setMoney(productValue + money);
+    return setProducts([...products, product]);
   };
 
   const handleProductDetect = (productEan: string) => () => {
     getProductData(productEan)
       .then(product => {
-        setLastProductName(product.nome);
+        setResult(product);
         setOpen(true);
       })
-      .catch((error: any) => setOpenError(true));
+      .catch(handleError);
   };
-
   const classes = useStyles();
 
   return (
     <Box className={classes.root}>
-      {/* <ul className='results'>
-        {results.map((result: any) => (
-          <Result key={result.codeResult.code} result={result} />
-        ))}
-      </ul> */}
       <Scanner onDetected={result => handleProductDetect(result.codeResult.code)()} />
       <AppBar className={classes.bottomAppBar}>
         <Grid container direction='row' justify='center' alignItems='center'>
           <Grid item xs={4} sm={2} lg={1} />
           <Grid item xs={4} sm={8} lg={10}>
             <Typography component='body' className={classes.moneyText}>
-              R$ {money.toFixed(2)}
+              R$ {getTotalMoney(products).toFixed(2)}
             </Typography>
           </Grid>
           <Grid item xs={4} sm={2} lg={1}>
@@ -55,30 +58,21 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
         <ProductModal
           open={open}
           handleClose={() => setOpen(false)}
-          // handleClose={() => setOpen(false)}
-          productName={lastProductName}
-          material={'Plástico'}
-          value={productValue}
-          handleAdd={handleAddProduct}
+          product={result as Product}
+          handleAdd={handleAddProduct(result as Product)}
         />
-
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={openError}
-          autoHideDuration={6000}
-          onClose={() => setOpenError(false)}
-        >
-          Ocorreu um erro
-        </Snackbar>
       </AppBar>
     </Box>
   );
 };
 
 export default MainPage;
+
+const getTotalMoney = (products: Product[]) => {
+  return products.reduce((acc, curr) => {
+    return acc + curr.value;
+  }, 0);
+};
 
 const useStyles = makeStyles(theme => ({
   root: {

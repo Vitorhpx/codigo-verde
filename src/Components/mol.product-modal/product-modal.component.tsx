@@ -6,16 +6,27 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import { Box } from '@material-ui/core';
+
+export interface Product {
+  name: string;
+  ean: string;
+  value: number;
+  img: string;
+}
+
 interface IProductModalProps {
   open: boolean;
   handleClose: () => void;
-  productName: string;
-  material: string;
   handleAdd: () => void;
-  value: number;
+  product: Product;
 }
 
 export const ProductModal: React.FunctionComponent<IProductModalProps> = props => {
+  const classes = useStyles();
+
   return (
     <div>
       <Dialog
@@ -24,27 +35,57 @@ export const ProductModal: React.FunctionComponent<IProductModalProps> = props =
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>
-          {props.productName} - {39129102}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            <b>Material:</b> {props.material}
-          </DialogContentText>
+        {props.product && props.product.name && props.product.value && props.product.ean ? (
+          <>
+            {props.product.img && (
+              <Box className={classes.avatarWrapper}>
+                <Avatar alt='Product image' src={props.product.img} className={classes.avatar} />
+              </Box>
+            )}
+            <DialogTitle id='alert-dialog-title'>
+              {props.product.name} - {props.product.ean}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id='alert-dialog-description'>
+                <b>Valor:</b> R$ {props.product.value.toFixed(2)}
+              </DialogContentText>
+              <DialogContentText id='alert-dialog-description'>
+                <b>Este produto é reciclável</b>
+              </DialogContentText>
+            </DialogContent>
 
-          <DialogContentText id='alert-dialog-description'>
-            <b>Valor:</b> R$ {props.value.toFixed(2)}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={props.handleClose} color='primary'>
-            Cancelar
-          </Button>
-          <Button onClick={props.handleAdd} color='primary' variant='contained'>
-            Adicionar
-          </Button>
-        </DialogActions>
+            <DialogActions>
+              <Button onClick={props.handleClose} color='primary'>
+                Cancelar
+              </Button>
+              <Button onClick={props.handleAdd} color='primary' variant='contained'>
+                Adicionar
+              </Button>
+            </DialogActions>
+          </>
+        ) : (
+          <>
+            <DialogContentText id='alert-dialog-description'>Produto não encontrado!</DialogContentText>
+            <DialogActions>
+              <Button onClick={props.handleClose} color='primary'>
+                Cancelar
+              </Button>
+            </DialogActions>
+          </>
+        )}
       </Dialog>
     </div>
   );
 };
+
+const useStyles = makeStyles({
+  avatarWrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  avatar: {
+    margin: 10,
+    width: 120,
+    height: 120,
+  },
+});
