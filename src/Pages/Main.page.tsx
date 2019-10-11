@@ -5,7 +5,11 @@ import { getProductData } from '../API/barcode/getProduct';
 import Scanner from '../Components/obj.barcode-scanner/Scanner';
 import { Product, ProductModal } from '../Components/mol.product-modal/product-modal.component';
 
-interface MainPageProps {}
+interface MainPageProps {
+  onRecycleClick: () => void;
+  onAddProduct: (product: Product) => void;
+  products: Product[];
+}
 
 const MainPage: React.FunctionComponent<MainPageProps> = props => {
   const [result, setResult] = React.useState<Product>({
@@ -14,18 +18,18 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
     ean: '',
     img: '',
   });
-  const [products, setProducts] = React.useState<Product[]>([]);
+  // const [products, setProducts] = React.useState<Product[]>([]);
   const [open, setOpen] = React.useState<boolean>(false);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleError = (_error: any) => {
     // variant could be success, error, warning, info, or default
-    enqueueSnackbar('Ocorreu um erro, tente novamente!', { variant: 'error' });
+    enqueueSnackbar('Ocorreu um erro, tente novamente!', { variant: 'warning' });
   };
 
-  const handleAddProduct = (product: Product) => () => {
+  const handleAddProduct = (product: Product) => {
     setOpen(false);
-    return setProducts([...products, product]);
+    props.onAddProduct(product);
   };
 
   const handleProductDetect = (productEan: string) => () => {
@@ -42,15 +46,17 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
     <Box className={classes.root}>
       <Scanner onDetected={result => handleProductDetect(result.codeResult.code)()} />
       <AppBar className={classes.bottomAppBar}>
-        <Grid container direction='row' justify='center' alignItems='center'>
-          <Grid item xs={4} sm={2} lg={1} />
-          <Grid item xs={4} sm={8} lg={10}>
+        <Grid container direction='row' alignItems='center' justify='space-between'>
+          <Grid item>
             <Typography component='body' className={classes.moneyText}>
-              R$ {getTotalMoney(products).toFixed(2)}
+              R$ {getTotalMoney(props.products).toFixed(2)}
             </Typography>
           </Grid>
-          <Grid item xs={4} sm={2} lg={1}>
-            <Button color='primary' variant='contained' onClick={handleProductDetect('7894650003879')}>
+          <Grid item>
+            <Button color='secondary' variant='contained' onClick={handleProductDetect('7894650003879')}>
+              Mock
+            </Button>
+            <Button color='secondary' variant='text' onClick={props.onRecycleClick}>
               Reciclar
             </Button>
           </Grid>
@@ -59,7 +65,7 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
           open={open}
           handleClose={() => setOpen(false)}
           product={result as Product}
-          handleAdd={handleAddProduct(result as Product)}
+          handleAdd={() => handleAddProduct(result as Product)}
         />
       </AppBar>
     </Box>
@@ -68,7 +74,7 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
 
 export default MainPage;
 
-const getTotalMoney = (products: Product[]) => {
+export const getTotalMoney = (products: Product[]) => {
   return products.reduce((acc, curr) => {
     return acc + curr.value;
   }, 0);
@@ -85,6 +91,7 @@ const useStyles = makeStyles(theme => ({
   bottomAppBar: {
     height: '60px',
     display: 'flex',
+    padding: '0 16px',
     flexDirection: 'row',
     top: 'auto',
     bottom: 0,
