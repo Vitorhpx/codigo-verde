@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, Grid, makeStyles, Typography } from '@material-ui/core';
+import { AppBar, Box, Button, Grid, makeStyles, Typography, Snackbar } from '@material-ui/core';
 import * as React from 'react';
 import Scanner from '../Components/obj.barcode-scanner/Scanner';
 import { ProductModal } from '../Components/mol.product-modal/product-modal.component';
@@ -9,6 +9,7 @@ interface MainPageProps {}
 const MainPage: React.FunctionComponent<MainPageProps> = props => {
   // const [results, setResults] = React.useState<any>([]);
   const [open, setOpen] = React.useState<boolean>(false);
+  const [openError, setOpenError] = React.useState<boolean>(false);
   const [money, setMoney] = React.useState<number>(0);
   const [productValue, setProductValue] = React.useState<number>(0);
   const [lastProductName, setLastProductName] = React.useState<string>('');
@@ -19,10 +20,12 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
   };
 
   const handleProductDetect = (productEan: string) => () => {
-    getProductData(productEan).then(product => {
-      setLastProductName(product.nome);
-    });
-    setOpen(true);
+    getProductData(productEan)
+      .then(product => {
+        setLastProductName(product.nome);
+        setOpen(true);
+      })
+      .catch((error: any) => setOpenError(true));
   };
 
   const classes = useStyles();
@@ -58,6 +61,18 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
           value={productValue}
           handleAdd={handleAddProduct}
         />
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={openError}
+          autoHideDuration={6000}
+          onClose={() => setOpenError(false)}
+        >
+          Ocorreu um erro
+        </Snackbar>
       </AppBar>
     </Box>
   );
@@ -82,5 +97,8 @@ const useStyles = makeStyles(theme => ({
   },
   moneyText: {
     textAlign: 'center',
+  },
+  margin: {
+    margin: theme.spacing(1),
   },
 }));
