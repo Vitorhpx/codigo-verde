@@ -2,6 +2,7 @@ import { AppBar, Box, Button, Grid, makeStyles, Typography } from '@material-ui/
 import * as React from 'react';
 import Scanner from '../Components/obj.barcode-scanner/Scanner';
 import { ProductModal } from '../Components/mol.product-modal/product-modal.component';
+import { getDataAxios } from '../API/barcode/getProduct';
 
 interface MainPageProps {}
 
@@ -16,6 +17,11 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
     return setMoney(productValue + money);
   };
 
+  const handleProductDetect = () => {
+    getDataAxios();
+    return () => setOpen(false);
+  };
+
   const classes = useStyles();
 
   return (
@@ -25,7 +31,7 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
           <Result key={result.codeResult.code} result={result} />
         ))}
       </ul> */}
-      <Scanner onDetected={() => setOpen(true)} />
+      <Scanner onDetected={handleProductDetect()} />
       <AppBar className={classes.bottomAppBar}>
         <Grid container direction='row' justify='center' alignItems='center'>
           <Grid item xs={4} sm={2} lg={1} />
@@ -35,7 +41,7 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
             </Typography>
           </Grid>
           <Grid item xs={4} sm={2} lg={1}>
-            <Button color='primary' variant='contained'>
+            <Button color='primary' variant='contained' onClick={handleProductDetect()}>
               Reciclar
             </Button>
           </Grid>
@@ -43,6 +49,7 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
         <ProductModal
           open={open}
           handleClose={() => setOpen(false)}
+          // handleClose={() => setOpen(false)}
           productName={'Garrafa de Água'}
           material={'Plástico'}
           value={productValue}
