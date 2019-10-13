@@ -76,20 +76,25 @@ const getBackClick = (page: Pages, setActivePage: any) => {
 };
 const placesMock: Place[] = [
   {
-    name: 'Reciclagem Lorena',
-    address: `R. Frederica Saciloti, 999 - Vila Nunes`,
+    name: 'Cooperativa Catadores',
+    address: `R. Lorena, 20 - Santo Antônio`,
   },
   {
     name: 'Reciclagem e Cia ',
-    address: `R. Frederica Saciloti, 999 - Vila Nunes`,
+    address: `R. Frederica Saciloti, 346 - Vila Nunes`,
   },
   {
     name: 'Recicla Tudo',
-    address: `R. Frederica Saciloti, 999 - Vila Nunes`,
+    address: `R. São Benedito, 123 - Vila Nunes`,
+  },
+
+  {
+    name: 'AP Reciclagem de Plásticos',
+    address: `R. Rio Grande do Norte, 291 - Cidade Industrial`,
   },
   {
-    name: 'Ferro Velho',
-    address: `R. Frederica Saciloti, 999 - Vila Nunes`,
+    name: 'Ferro Velho do Joãozinho',
+    address: `R. Abadias José Correa, 259 - Vila Sta Edwiges`,
   },
 ];
 

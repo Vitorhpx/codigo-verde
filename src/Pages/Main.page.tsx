@@ -47,9 +47,10 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
       <Scanner onDetected={result => handleProductDetect(result.codeResult.code)()} />
       <AppBar className={classes.bottomAppBar}>
         <Grid container direction='row' alignItems='center' justify='space-between'>
-          <Grid item>
+          <Grid item onClick={_event => handleProductDetect('7894650003879')()}>
+            {/* On click is for debugging */}
             <Typography component='body' className={classes.moneyText}>
-              Total: R$ {getTotalMoney(props.products).toFixed(2)}
+              Pontos: {getTotalPoints(props.products)}
             </Typography>
           </Grid>
           <Grid item>
@@ -76,7 +77,7 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
 
 export default MainPage;
 
-export const getTotalMoney = (products: Product[]) => {
+export const getTotalPoints = (products: Product[]) => {
   return products.reduce((acc, curr) => {
     return acc + curr.value;
   }, 0);

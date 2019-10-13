@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import * as React from 'react';
 import { Product } from '../Components/mol.product-modal/product-modal.component';
-import { getTotalMoney } from './Main.page';
+import { getTotalPoints } from './Main.page';
 
 interface IProductCheckoutProps {
   products: Product[];
@@ -45,14 +45,14 @@ const ProductCheckout: React.FunctionComponent<IProductCheckoutProps> = props =>
             <ListItemAvatar>
               <Avatar alt='Product image' src={product.img} />
             </ListItemAvatar>
-            <ListItemText primary={product.name} secondary={`R$: ${product.value}`} />
+            <ListItemText primary={product.name} secondary={`${product.value} pontos`} />
           </ListItem>
         ))}
       </List>
       <AppBar className={classes.bottomAppBar}>
         <Grid container direction='row' alignItems='center' justify='space-between'>
           <Grid item>
-            <Typography component='body'>Total: R$ {getTotalMoney(props.products).toFixed(2)}</Typography>
+            <Typography component='body'>Pontos: {getTotalPoints(props.products)}</Typography>
           </Grid>
           <Grid item>
             <Button color='secondary' variant='text' onClick={props.onNextClick}>

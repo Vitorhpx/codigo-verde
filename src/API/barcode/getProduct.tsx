@@ -13,7 +13,7 @@ export async function getProductData(productEan: string): Promise<Product> {
   return {
     name: response.data.return.nome,
     img: response.data.return.imagem_produto,
-    value: parseInt(response.data.return.peso_bruto, 10) * 0.001,
+    value: parseInt(response.data.return.peso_bruto, 10),
     ean: productEan,
   };
 }

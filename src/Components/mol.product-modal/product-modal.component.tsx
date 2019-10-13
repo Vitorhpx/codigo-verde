@@ -47,7 +47,8 @@ export const ProductModal: React.FunctionComponent<IProductModalProps> = props =
             </DialogTitle>
             <DialogContent>
               <DialogContentText id='alert-dialog-description'>
-                <b>Valor:</b> R$ {props.product.value.toFixed(2)}
+                <b>Pontos: </b>
+                {props.product.value}
               </DialogContentText>
               <DialogContentText id='alert-dialog-description'>
                 <b>Este produto é reciclável</b>
