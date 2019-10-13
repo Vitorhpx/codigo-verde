@@ -53,7 +53,12 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
             </Typography>
           </Grid>
           <Grid item>
-            <Button color='secondary' variant='text' onClick={props.onRecycleClick}>
+            <Button
+              color='secondary'
+              variant='text'
+              onClick={props.onRecycleClick}
+              disabled={props.products.length < 1}
+            >
               Reciclar
             </Button>
           </Grid>

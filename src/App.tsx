@@ -19,6 +19,10 @@ enum Pages {
 const App = () => {
   const [products, setProducts] = React.useState<Product[]>([]);
   const [activePage, setActivePage] = React.useState<Pages>(Pages.main);
+  const handleCheckout = () => {
+    setActivePage(Pages.thanks);
+    setProducts([]);
+  };
 
   return (
     <GlobalThemeProvider>
@@ -34,9 +38,7 @@ const App = () => {
         {activePage === Pages.checkout && (
           <ProductCheckout products={products} onNextClick={() => setActivePage(Pages.places)} />
         )}
-        {activePage === Pages.places && (
-          <PlacesSelection places={placesMock} onNextClick={() => setActivePage(Pages.thanks)} />
-        )}
+        {activePage === Pages.places && <PlacesSelection places={placesMock} onNextClick={handleCheckout} />}
         {activePage === Pages.thanks && <Thanks onNextClick={() => setActivePage(Pages.main)} />}
       </SnackbarProvider>
     </GlobalThemeProvider>
@@ -72,7 +74,6 @@ const getBackClick = (page: Pages, setActivePage: any) => {
       return null;
   }
 };
-
 const placesMock: Place[] = [
   {
     name: 'Reciclagem Lorena',
