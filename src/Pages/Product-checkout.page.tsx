@@ -16,12 +16,12 @@ import { getTotalMoney } from './Main.page';
 
 interface IProductCheckoutProps {
   products: Product[];
+  onNextClick: () => void;
 }
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
   },
   bottomAppBar: {
@@ -55,7 +55,7 @@ const ProductCheckout: React.FunctionComponent<IProductCheckoutProps> = props =>
             <Typography component='body'>Total: R$ {getTotalMoney(props.products).toFixed(2)}</Typography>
           </Grid>
           <Grid item>
-            <Button color='secondary' variant='text' onClick={() => null}>
+            <Button color='secondary' variant='text' onClick={props.onNextClick}>
               Próximo
             </Button>
           </Grid>

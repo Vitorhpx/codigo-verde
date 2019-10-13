@@ -1,9 +1,9 @@
 import { IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import * as React from 'react';
 
 interface IHeaderProps {
-  onMenuClick: () => void;
+  onBackClick: any;
   text: string;
 }
 
@@ -30,9 +30,17 @@ const Header: React.FunctionComponent<IHeaderProps> = props => {
   return (
     <div className={classes.root}>
       <Toolbar className={classes.toolbar}>
-        <IconButton edge='start' className={classes.menuButton} color='inherit' aria-label='menu'>
-          <MenuIcon onClick={props.onMenuClick} />
-        </IconButton>
+        {props.onBackClick && (
+          <IconButton
+            edge='start'
+            className={classes.menuButton}
+            color='inherit'
+            aria-label='menu'
+            onClick={props.onBackClick}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        )}
         <Typography variant='h6' className={classes.title}>
           {props.text}
         </Typography>

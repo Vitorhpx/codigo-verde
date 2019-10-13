@@ -49,13 +49,10 @@ const MainPage: React.FunctionComponent<MainPageProps> = props => {
         <Grid container direction='row' alignItems='center' justify='space-between'>
           <Grid item>
             <Typography component='body' className={classes.moneyText}>
-              R$ {getTotalMoney(props.products).toFixed(2)}
+              Total: R$ {getTotalMoney(props.products).toFixed(2)}
             </Typography>
           </Grid>
           <Grid item>
-            <Button color='secondary' variant='contained' onClick={handleProductDetect('7894650003879')}>
-              Mock
-            </Button>
             <Button color='secondary' variant='text' onClick={props.onRecycleClick}>
               Reciclar
             </Button>
