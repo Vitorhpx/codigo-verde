@@ -1,4 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a personal project created for the study of Barcode libraries and open API integration.
+
+"Código Verde" is a fictional website where you can scan an object barcode and get points for the recycling of it.
 
 ## Available Scripts
 
